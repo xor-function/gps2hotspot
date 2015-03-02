@@ -1,4 +1,8 @@
 #!/usr/bin/perl 
+#
+# gps2hotspot
+# license BSD 3 
+#
 
 use strict;
 use warnings;
