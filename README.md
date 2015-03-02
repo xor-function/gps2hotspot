@@ -4,7 +4,7 @@ This Perl script is another gps logger with a twist.
 It dumps logs only to a specified mobile hotspot 
 via an FTP server.
 
-The FTP server use successfully is the android app 
+The FTP server used successfully is the android app 
 ES File Explorer.
 
 ## Required Perl Modules
