@@ -1,10 +1,10 @@
 # gps2hotspot 
 
 This Perl script is another gps logger with a twist.
-It depends on a mobile hotspot, the android hotspot 
-to be runing an FTP server.
+It dumps logs only to a specified mobile hotspot 
+via an FTP server.
 
-The FTP server is compatible with the android app 
+The FTP server use successfully is the android app 
 ES File Explorer.
 
 ## Required Perl Modules
