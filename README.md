@@ -54,6 +54,16 @@ for more details information use man
 pi@raspberry:~$ man man dhclient.conf
 ```
 
+### * FTP
+
+Set the variables in gps2hotspot.pl file
+under FTP session.
+
+input your user/pass and port number.
+
+If you do not specify an IP for the ftp 
+server, it will use the default gateway.
+
 
 ## TODO 
 
