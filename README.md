@@ -49,7 +49,7 @@ pi@raspberry:~$ man wpa_supplicant.conf
 To prevent dhclient from hanging up too long use a dhclient.conf
 file that specifies a timeout limt.
 
-for more details information use manfor more details information use man
+for more details information use man
 ```
 pi@raspberry:~$ man man dhclient.conf
 ```
