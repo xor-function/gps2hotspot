@@ -32,7 +32,7 @@ my $wlan;
 # FTP session variables
 my $ftp; 
 #------------=[ FTP var edit block ]=------------
-my $ftp_host = '192.168.43.1';
+my $ftp_host;
 my $ftp_port = '8888';
 my $ftp_usr  = 'anon';
 my $ftp_pass = 'anon';
