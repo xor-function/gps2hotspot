@@ -200,7 +200,7 @@ while (1) {
           
                 if (defined "$tping") {
 
-                       print "[+] associated to hotspot\n"                  
+                       print "[+] associated to hotspot\n";                  
                        print "[+] gateway is alive\n";
                        print "[*] attempting to upload logs via FTP\n";
              
