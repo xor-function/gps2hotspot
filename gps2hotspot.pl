@@ -46,6 +46,21 @@ my $dhclient = 'dhclient.conf';
 my $user     = $>;
 # loop control variables
 my $counter  = '0';
+# GPS format conversion variables
+my $latones;
+my $lonones;
+my $lattenths;
+my $lontenths;
+my $latpol;
+my $lonpol;
+my $latdeccoor;
+my $londeccoor;
+my $latdiv;
+my $latdecraw;
+my $latdec;
+my $londiv;
+my $londecraw;
+my $londec;
 # For logs/General
 my $time;
 my $proc;
@@ -66,7 +81,7 @@ sub chk_exist{
           close $fhandle;
           print "[+] config file $conf found.\n";
        }else { 
-            die "[!] $conf not found, run setup.sh to generate.\n";
+            die "[!] $conf not found, cannot continue.\n";
      }   
     undef $conf
 }
@@ -141,11 +156,54 @@ while (1) {
                           'Baud'      => $bauds,
                      );
 
+   # get gps data and convert to DDD from DMM
+   
    while( $counter < 5 ) {
 
         my($ns,$lat,$ew,$lon) = $gps->get_position;
+
+        # just in case        
+        chomp($lon); chomp($lat); chomp($ns); chomp($ew);
+
+        my ($latdeg, $latmin) = split("\\.", $lat);
+        my ($londeg, $lonmin) = split("\\.", $lon);
+
+        # decimal calculation
+        # Splitting up decimals into places
+
+        $latones   = substr($latmin, 0, 2);
+        $lonones   = substr($lonmin, 0, 2);
+
+        $lattenths = substr($latmin, 2, 6);
+        $lontenths = substr($lonmin, 2, 6);
+
+        # doing some math to convert the minutes to decimals
+
+        $latdiv    = join(".", $latones, $lattenths);
+        $latdecraw = $latdiv / 60;
+        $latdec    = substr($latdecraw, 2, 5);
+
+        $londiv    = join(".", $lonones, $lontenths);
+        $londecraw = $londiv / 60;
+        $londec    = substr($londecraw, 2, 5);
+
+        # the calculations above are to decimal degrees and are stored in 
+        # the latdec / londec variables 
+
+        $latdeccoor = join(".", $latdeg, $latdec);
+        $londeccoor = join(".", $londeg, $londec);
+
+        # calculating polarity
+        # positive will be blank since in Google maps only negative is visible
+
+        if ($ns eq "N") { $latpol = ' '; }
+        if ($ns eq "S") { $latpol = '-'; }
+
+        if ($ew eq "E") { $lonpol = ' '; }
+        if ($ew eq "W") { $lonpol = '-'; }
+
         open(my $fhandler, '+>>', "$log" ) or die "Could not open file $!";
-        print $fhandler "($ns,$lat,$ew,$lon)\n";
+        print $fhandler "[DMM: $ns,$lat,$ew,$lon ][DDD:$latpol$latdeccoor,$lonpol$londeccoor ]\n";
         close $fhandler;
         $counter += 1;
         print "[+] dumping GPS coordinates to $log...\n"
