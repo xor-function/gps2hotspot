@@ -27,6 +27,11 @@ This script uses wpa_supplicant to manage wpa connections and
 requires a config file generated with wpa_passphrase with the
 neccessary wpa credentials.
 
+example:
+```
+pi@raspberry:~$ wpa_passphrase "hotspots name" "hotspots password" > wpa_supplicant.conf
+```
+
 Name it "wpa_supplicant.conf" and place it in the same dir
 as the Perl script.
 
