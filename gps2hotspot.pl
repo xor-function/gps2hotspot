@@ -158,7 +158,7 @@ while (1) {
 
    # get gps data and convert to DDD from DMM
    
-   while( $counter < 5 ) {
+   while( $counter < 1 ) {
 
         my($ns,$lat,$ew,$lon) = $gps->get_position;
 
