@@ -9,6 +9,8 @@ ES File Explorer.
 
 ## Get it working
 
+Tailored for Debian based distros
+
 ### * Required Perl Modules
 
 For this Perl script to work it requires
