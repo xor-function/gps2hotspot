@@ -29,7 +29,7 @@ neccessary wpa credentials.
 
 example:
 ```
-pi@raspberry:~$ wpa_passphrase "hotspots name" "hotspots password" > wpa_supplicant.conf
+pi@raspberry:~$ wpa_passphrase "hotspots-name" "hotspots-passwd" > wpa_supplicant.conf
 ```
 
 Name it "wpa_supplicant.conf" and place it in the same dir
