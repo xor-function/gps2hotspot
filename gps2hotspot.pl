@@ -122,7 +122,7 @@ if ( $user ne 0 ) {
 
 # test arguments 
 if ( @ARGV < 2 || @ARGV > 2 ) {
-   die "Usage: logger.pl [gps device] [wlan iface] \n";
+   die "Usage: gps2hotspot.pl [gps device] [wlan iface] \n";
 }
 
 # set arguments to specific variables
@@ -137,6 +137,10 @@ if ( $ssid =~ /hotspot-name/ ) {
   die "[!] you need to change the hotspot name (ssid) to your phone's\n";
 }
 
+if ( not defined($ftp_host)) {
+  print "[!] since you have not assigned an ip to the ftp_host\n it will use the ip of the default gateway\n";
+}
+
 # check if dhclient.conf exists
 # chk_exist($dhclient);
 
@@ -146,7 +150,7 @@ while (1) {
    print "[!] sleeping for 120 secs\n";
    sleep(120);
 
-   $time = qx(date +"%m""%d""%H""%M""%N");
+   $time = qx(date +"%D":"%r");
            chomp($time);
            $time =~ s/\r|\n//g;
 
@@ -291,6 +295,6 @@ while (1) {
    unset_wlan();
    end_proc();
 
-   print "[+] finished\n";
+   print "[+] finished at $time\n";
 
 }
