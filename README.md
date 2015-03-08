@@ -7,6 +7,13 @@ via an FTP server.
 The FTP server used successfully is the android app 
 ES File Explorer.
 
+The GPS coordinates are logged in two formats
+* DMM
+* DDD
+
+The decimal degree format can be directly input into
+a Google/Google maps search.
+
 ## Get it working
 
 Tailored for Debian based distros
