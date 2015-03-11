@@ -101,7 +101,6 @@ sub scan_wlan{
             sleep(7);
    }
    else {
-
        $aps = qx(iwlist $wlan scan) || die "[!] retry failed, does this interface exist?\n";
    }
 
@@ -200,8 +199,7 @@ sub upload_logs{
 
            print "[+] uploaded file!\n";
 
-    }
-    else{ print "[!] cannot connect to $ftp_host\n"; }
+    } else{ print "[!] cannot connect to $ftp_host\n"; }
 
 }
 
@@ -216,13 +214,11 @@ sub wlan_connect_upload{
 
        if ( not defined($ftp_host_ip)) {
                $ftp_host = qx(netstat -r | grep ^default | awk '{print \$2}');
-        }
-       else{ $ftp_host = $ftp_host_ip;}
+        } else{ $ftp_host = $ftp_host_ip;}
 
        if ("$ftp_host" =~ /[0-9]/ ) {
            print "[+] got gateway $ftp_host\n";
-       }
-       else { print "[!] gatway could not be established\n"; }
+       } else { print "[!] gateway could not be established\n"; }
 
        $ping = qx(ping -c 2 $ftp_host);
        if ( "$ping" =~ /ttl=/ ) {
