@@ -59,13 +59,20 @@ for more details information use man
 pi@raspberry:~$ man wpa_supplicant.conf
 ```
 
+### * Arguments 
+
+The arguments must be in the following order.
+```
+Usage: gps2hotspot.pl [gps device] [baud rate] [wlan iface] [hotspot-name (ssid)]
+```
+
 ### * dhclient
 To prevent dhclient from hanging up too long use a dhclient.conf
 file that specifies a timeout limt.
 
 for more details information use man
 ```
-pi@raspberry:~$ man man dhclient.conf
+pi@raspberry:~$ man dhclient.conf
 ```
 
 ### * FTP
@@ -78,6 +85,10 @@ input your user/pass and port number.
 If you do not specify an IP for the ftp 
 server, it will use the default gateway.
 
+The defaults set are 
+*FTP user anon
+*FTP pass anon
+*FTP port 4444
 
 ## TODO 
 
