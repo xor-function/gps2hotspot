@@ -85,7 +85,7 @@ input your user/pass and port number.
 If you do not specify an IP for the ftp 
 server, it will use the default gateway.
 
-The defaults set are
+The set defaults are
 * FTP user anon
 * FTP pass anon
 * FTP port 4444
