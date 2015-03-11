@@ -11,34 +11,31 @@ use GPS::NMEA;
 
 ##########|[variables]|#########
 
-# GPS Device variables  
+
+#------------------=[ FTP edit block ]=------------------------
+my $ftp_host_ip; # = 'x.x.x.x';  # only use this if you have a diff ftp server other than your phone
+my $ftp_port     = '4444';
+my $ftp_usr      = 'anon';
+my $ftp_pass     = 'anon';
+#------------------------=[ end ]=-----------------------------
+
+#---------=[ gps device log location edit block  ]=------------
+my $log     = '/root/location-data';
+#------------------------=[ end ]=-----------------------------
+
+
+# do not modify the variables below unless you 
+# know what your are doing.
+
+# general from FTP GPS and wlan
 my $gps;
 my $device;
-#------=[ gps device var edit block  ]=----------
-my $bauds      = '9600';
-my $log        = '/root/location-data';
-#-----------------=[ end ]=-----------------------
-
-
-# Wireless access point variables
-#--------=[ Hotspot name edit block ]=-----------
-my $ssid       = 'hotspot-name';
-#----------------=[ end ]=-----------------------
+my $bauds;
+my $ftp;
+my $ftp_host;
+my $ssid;
 my $aps;
 my $wlan;
-
-
-# FTP session variables
-my $ftp; 
-my $ftp_host;
-#------------=[ FTP var edit block ]=------------
-my $ftp_host_ip;
-my $ftp_port    = '8888';
-my $ftp_usr     = 'anon';
-my $ftp_pass    = 'anon';
-#-------------------=[ end ]=--------------------
-
-
 # configuration files
 my $wpasup      = 'wpa_supplicant.conf';
 my $dhclient    = 'dhclient.conf';
@@ -66,7 +63,6 @@ my $time;
 my $proc;
 # Networking connection variables
 my $ping;
-my $tping;
 my $net;
 
 #------------------------------------------
@@ -223,23 +219,21 @@ sub wlan_connect_upload{
         }
        else{ $ftp_host = $ftp_host_ip;}
 
-       chomp($ftp_host);
-       print "[*] got gateway $ftp_host\n";
+       if ("$ftp_host" =~ /[0-9]/ ) {
+           print "[+] got gateway $ftp_host\n";
+       }
+       else { print "[!] gatway could not be established\n"; }
 
-       $ping = qx(ping -c 1 $ftp_host);
-       $tping = $ping =~ /ttl=/;
-       chomp($tping);
-
-       if (defined "$tping") {
+       $ping = qx(ping -c 2 $ftp_host);
+       if ( "$ping" =~ /ttl=/ ) {
 
             print "[+] associated to hotspot\n";
             print "[+] gateway is alive\n";
             print "[*] attempting to upload logs via FTP\n";
             upload_logs();
-        }
+        } else { print "[!] link cannot be established!\n"; }
 
-   }
-   else { print"[!] could not associate to hotspot at $time\n"; }
+   } else { print"[!] could not associate to hotspot at $time\n"; }
 
 }
 
@@ -252,21 +246,30 @@ if ( $user ne 0 ) {
 }
 
 # test arguments 
-if ( @ARGV < 2 || @ARGV > 2 ) {
-   die "Usage: gps2hotspot.pl [gps device] [wlan iface] \n";
+if ( @ARGV < 4 || @ARGV > 4 ) {
+   die "Usage: gps2hotspot.pl [gps device] [baud rate] [wlan iface] [hotspot-name (ssid)]\n";
 }
 
 # set arguments to specific variables
-$device = $ARGV[0];
-$wlan   = $ARGV[1];
+
+if (not defined($ARGV[0])) {
+     die "[!] you need to specify a gps device as the first arg\n";
+   }else { $device = $ARGV[0]; }
+
+if (not defined($ARGV[1])) {
+     die "[!] you need to specify the baud rate of the gps device as the second arg\n";
+   }else { $bauds = $ARGV[1]; }
+
+if (not defined($ARGV[2])) {
+     die "[!] you need to specify the iface of an wireless adapter as the third arg\n";
+   }else { $wlan = $ARGV[2]; }
+
+if ( not defined($ARGV[3])) {
+     die "[!] you need to specify a hotspotname (ssid) as the fourth arg\n";
+   }else { $ssid = $ARGV[3]; }
 
 # check if wpa_supplicant.conf exists 
 chk_exist($wpasup);
-
-# check name of mobile hotspot assigned to variable 
-if ( $ssid =~ /hotspot-name/ ) {
-  die "[!] you need to change the hotspot name (ssid) to your phone's\n";
-}
 
 if ( not defined($ftp_host)) {
   print "[!] since you have not assigned an ip to the ftp_host\n it will use the ip of the default gateway\n";
@@ -304,8 +307,7 @@ while (1) {
         
         wlan_connect_upload();
        
-    } 
-    else{ print "[!] hotspot not detected...\n"; }
+    } else{ print "[!] hotspot not detected...\n"; }
 
    unset_wlan();
    end_proc();
