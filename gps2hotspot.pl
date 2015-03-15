@@ -214,6 +214,7 @@ sub wlan_connect_upload{
 
        if ( not defined($ftp_host_ip)) {
                $ftp_host = qx(netstat -r | grep ^default | awk '{print \$2}');
+               chomp($ftp_host);
         } else{ $ftp_host = $ftp_host_ip;}
 
        if ("$ftp_host" =~ /[0-9]/ ) 
