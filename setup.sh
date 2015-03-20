@@ -27,7 +27,7 @@ echo '        /_/ /_/\____/\__/____/ .___/\____/\__/              '
 echo '                            /_/                             '
 echo '                                                            '
 echo '    More like "gps logs uploaded to a hotspot via ftp"      '
-echo '    but thats not a name, maybe a wierd one...              '
+echo '    but thats not a name, maybe a weird one...              '
 echo '                                                            '
 echo '------------------------------------------------------------'
 }
