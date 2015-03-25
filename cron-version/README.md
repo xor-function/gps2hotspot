@@ -1,8 +1,8 @@
 # Cron Version (gps2hotspot)
 
 This is a lite version set to be run periodically by cron and does not perform a infinite while loop.
-It here is an example cron job and shell script wrapper that's pretty verbose and giving you greater
-control options over it's execution.
+Here are an example cron job and shell script wrapper that's pretty verbose. This may help you 
+achieve greater control over it's execution.
 
 ## Example cron job in cron.d
 
@@ -28,7 +28,7 @@ chk_proc() {
 
 cd $dir
 echo '*=----------------------------------------=*'
-echo "[+] the working directory is now /root/gps/"
+echo "[+] the working directory is now $dir"
 
 chk_proc
 killall wpa_supplicant
