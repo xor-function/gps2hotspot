@@ -8,12 +8,13 @@ achieve greater control over it's execution.
 
 ```
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
-*/2 * * * * root if [[ -z $( ps aux | grep -F "start.sh" | grep -v 'grep') ]]; then /bin/sh -c /root/gps/start.sh >> /root/script-log; fi
+*/3 * * * * root if [[ -z $( ps aux | grep -F "start.sh" | grep -v 'grep') ]]; then /bin/sh -c /root/gps/start.sh >> /root/script-log; else pkill start.sh ; fi
 ```
 
 
 ## Example cron job bash script wrapper
 
+start.sh 
 ```
 #!/bin/bash
 # checking if perl script is already running
