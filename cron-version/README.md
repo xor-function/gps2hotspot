@@ -12,7 +12,7 @@ PATH=/sbin:/usr/sbin:/bin:/usr/bin
 ```
 
 
-## Example cron job bash scrip wrapper
+## Example cron job bash script wrapper
 
 ```
 #!/bin/bash
