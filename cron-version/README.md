@@ -4,6 +4,8 @@ This is a lite version set to be run periodically by cron and does not perform a
 Here are an example cron job and shell script wrapper that's pretty verbose. This may help you 
 achieve greater control over it's execution.
 
+The only thing you need to remember is to pass the arguments to the perl script.
+
 ## Example cron job in cron.d
 
 ```
@@ -37,7 +39,7 @@ killall wpa_supplicant
 if [ -z "$proc" ]; then
 
     echo "[+] kicking off the ghs binary..."
-    timeout 60 ./gpshs.pl /dev/ttyAMA0 9600 wlan0 box01 >> /root/performance
+    timeout 60 ./gpshs.pl /dev/ttyAMA0 9600 wlan0 your-ssid >> /root/performance
     if [ $? -ne 0 ]; then
          echo "[!] cron failed to run the perl binary"
          killall wpa_supplicant
