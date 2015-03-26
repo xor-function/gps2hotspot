@@ -16,6 +16,20 @@ a Google/Google maps search.
 
 ## Get it working
 
+I have added a script to assist in making
+setup faster.
+
+```
+usage:
+./setup.sh -n my_hotspot -p hotspot-pass
+
+options:
+   -n   name of your hotspot (ssid)
+   -p   wpa2 password on your hotspot
+```
+This should keep you from having to do the 
+below manually.
+
 Tailored for Debian based distros
 
 ### * Required Perl Modules
@@ -89,12 +103,6 @@ The set defaults are
 * FTP user anon
 * FTP pass anon
 * FTP port 4444
-
-## TODO 
-
-Create setup shell script, that will automate
-the steps under "Get it working".
-
 
 
 xor-function = null
