@@ -18,7 +18,7 @@ a Google/Google maps search.
 
 Shows the Perl script in action.
 
-[![video on youtube here](http://img.youtube.com/vi/jD6MFCW56rU/hqdefault.jpg)](https://www.youtube.com/embed/jD6MFCW56rU?vq=hd720)
+[![video on youtube here](http://img.youtube.com/vi/jD6MFCW56rU/hqdefault.jpg)](https://www.youtube.com/embed/jD6MFCW56rU?autoplay=1&vq=hd720)
 
 ## Get it working
 
