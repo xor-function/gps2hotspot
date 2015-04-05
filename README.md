@@ -14,6 +14,12 @@ The GPS coordinates are logged in two formats
 The decimal degree format can be directly input into
 a Google/Google maps search.
 
+## Video
+
+Shows the Perl script in action.
+
+[![video on youtube here](http://img.youtube.com/vi/jD6MFCW56rU/hqdefault.jpg)](https://www.youtube.com/embed/jD6MFCW56rU?vq=hd720)
+
 ## Get it working
 
 I have added a script to assist in making
