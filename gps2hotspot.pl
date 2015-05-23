@@ -1,8 +1,9 @@
 #!/usr/bin/perl 
 #
 # gps2hotspot
-# license BSD 3 
-#
+# license BSD 3
+#       by xor-function
+#  
 
 use strict;
 use warnings;
