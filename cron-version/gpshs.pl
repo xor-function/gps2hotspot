@@ -214,72 +214,76 @@ sub wlan_connect_upload{
 
 }
 
-#---------------------------------------
-#------------=[ main ]=-----------------
+
+sub main{ 
+
+	# permission variables 
+	my $user = $>;
+
+	# check if user is root
+	if ( $user ne 0 ) { die "You must run this as root \n"; }
+
+	# test arguments 
+	if ( @_ < 4 || @_ > 4 ) {	
+		die "Usage: gps2hotspot.pl [gps device] [baud rate] [wlan iface] [hotspot-name (ssid)]\n";
+	}
+
+	# set arguments to specific variables
+	if (not defined($_[0])) { die "[!] you need to specify a gps device as the first arg\n"; }
+	my $device = $_[0];
+
+	if (not defined($_[1])) { die "[!] you need to specify the baud rate of the gps device as the second arg\n";	}
+	my $bauds = $_[1]; 
+
+	if (not defined($_[2])) { die "[!] you need to specify the iface of an wireless adapter as the third arg\n";	}
+	my $wlan_iface = $_[2];
+
+	if (not defined($_[3])) { die "[!] you need to specify a hotspotname (ssid) as the fourth arg\n"; }
+	my $ssid = $_[3];
+
+	# check if wpa_supplicant.conf exists 
+	chk_exist($wpasup);
+
+	if ( not defined($ftp_host_ip)) {
+		print "[!] since you have not assigned an ip to the ftp_host_ip\n it will use the ip of the default gateway\n";
+	}
 
 
-# permission variables 
-my $user = $>;
+	print "[!] sleeping for 120 secs\n";
+	sleep(120);
 
-# check if user is root
-if ( $user ne 0 ) { die "You must run this as root \n"; }
+	my $time = qx(date +"%D":"%r");
+        chomp($time);
+        $time =~ s/\r|\n//g;
 
-# test arguments 
-if ( @ARGV < 4 || @ARGV > 4 ) {	
-	die "Usage: gps2hotspot.pl [gps device] [baud rate] [wlan iface] [hotspot-name (ssid)]\n";
-}
+	# get gps data and convert to DDD from DMM
+	log_gps($device, $bauds, $log);
 
-# set arguments to specific variables
-if (not defined($ARGV[0])) { die "[!] you need to specify a gps device as the first arg\n"; }
-my $device = $ARGV[0];
+	# checking if theres an wpa_supplicant orphan proc, if then kill it. 
+	end_proc();
 
-if (not defined($ARGV[1])) { die "[!] you need to specify the baud rate of the gps device as the second arg\n";	}
-my $bauds = $ARGV[1]; 
+	# starting code block for wireless ap search 
+	print "[*] scanning for hotspot to upload coordinate log\n";
 
-if (not defined($ARGV[2])) { die "[!] you need to specify the iface of an wireless adapter as the third arg\n";	}
-my $wlan_iface = $ARGV[2];
+	set_wlan($wlan_iface);
+	my $scan = scan_wlan($wlan_iface);
 
-if (not defined($ARGV[3])) { die "[!] you need to specify a hotspotname (ssid) as the fourth arg\n"; }
-my $ssid = $ARGV[3];
+	if ("$scan" =~ /$ssid/ ) {
 
-# check if wpa_supplicant.conf exists 
-chk_exist($wpasup);
-
-if ( not defined($ftp_host_ip)) {
-	print "[!] since you have not assigned an ip to the ftp_host_ip\n it will use the ip of the default gateway\n";
-}
-
-
-# logging location then attempting upload
-
-my $time = qx(date +"%D":"%r");
-chomp($time);
-$time =~ s/\r|\n//g;
-
-# get gps data and convert to DDD from DMM
-log_gps($device, $bauds, $log);
-
-# checking if theres an wpa_supplicant orphan proc, if then kill it. 
-end_proc();
-
-# starting code block for wireless ap search 
-print "[*] scanning for hotspot to upload coordinate log\n";
-
-set_wlan($wlan_iface);
-my $scan = scan_wlan($wlan_iface);
-
-if ("$scan" =~ /$ssid/ ) {
-
-	print "[+] found hotspot\n";
-	print "[*] attempting association\n";
-    
-	wlan_connect_upload($wlan_iface, $wpasup, $ftp_host_ip, $ftp_port, $ftp_usr, $ftp_pass, $time, $log);
+		print "[+] found hotspot\n";
+		print "[*] attempting association\n";
+        
+		wlan_connect_upload($wlan_iface, $wpasup, $ftp_host_ip, $ftp_port, $ftp_usr, $ftp_pass, $time, $log);
        
-} else{ print "[!] hotspot not detected...\n"; }
+	} else{ print "[!] hotspot not detected...\n"; }
 
-unset_wlan($wlan_iface);
-end_proc();
+	unset_wlan($wlan_iface);
+	end_proc();
 
-print "[+] finished at $time\n";
+	print "[+] finished at $time\n";
 
+
+}
+
+main(@ARGV);
 
